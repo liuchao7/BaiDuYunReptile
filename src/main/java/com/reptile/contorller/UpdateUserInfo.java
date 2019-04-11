@@ -66,6 +66,8 @@ public class UpdateUserInfo {
 		WebClient webClient=new WebClient(BrowserVersion.FIREFOX_52); // 实例化web客户端
 		try{
 			HtmlPage page=webClient.getPage(url);
+			
+			//尝试三次连接
 			for(int i=0;i<3;i++){
 				try{
 					Thread.sleep(2000);
@@ -131,14 +133,19 @@ public class UpdateUserInfo {
 	public static void main(String[] args) {
 		UpdateUserInfo updateUserInfo=new UpdateUserInfo();
 		try{
-			List<String> userInfoList=updateUserInfo.loadUserInfo(0, 3);
+			List<String> userInfoList=updateUserInfo.loadUserInfo(0, 6);
+			
 			for(int i=0;i<userInfoList.size();i++){
 				String uk=userInfoList.get(i);
 				UserInfo userInfo=updateUserInfo.parsePageByUserUk(uk);
 				updateUserInfo.updateUserInfo(userInfo);
 			}
+			System.out.println(userInfoList.size());
 		}catch(Exception e){
 			logger.error("执行main方法报错",e);
 		}
 	}
+	
+	
+	
 }
